@@ -12,7 +12,7 @@
 <div style="text-align: center;">
     <br>
     <h1 style="font-size: 64px;">Terms of Service</h1>
-    <p>Last updated 23 Jan 2024</p>
+    <p>Last updated 23 Jan 2024 | Revision 2</p>
     <br>
     <p><b>Welcome to Themium! By using our services, you agree to the following terms:</b></p>
     <br>
@@ -24,4 +24,6 @@
     <p><b>No Bots or Automation</b>: Using bots or any automated methods to interact with the site is a no-go. Keep it human, my friend.</p>
     <p><b>Nobody Likes Lawsuits</b>: By using our site and agreeing to these Terms of Service, you waive your right to a class action lawsuit.</p>
     <p><b>AI Disclaimer</b>: When posting themes created with Themium on theme sharing sites such as MeowThemes, we require you to disclose that the theme was created by Themium by either including "(Themium)" in the title or "This theme was created with Themium, an AI theme creator for Meower" in the description.</p>
+    <br>
+    <p><b>Agreement Validity:</b> This Terms of Service revision is valid for 1 year after the Last Updated date, or until a new revision is released, whichever comes first.</p>
 </div>

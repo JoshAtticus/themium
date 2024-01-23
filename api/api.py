@@ -113,7 +113,7 @@ def generate_theme():
 
     log_request(ip, prompts)
 
-    prompt_parts.append(f"input: {user_style}")
+    prompt_parts.append(f"{user_style}")
     
     response = model.generate_content(prompt_parts)
     return response.text

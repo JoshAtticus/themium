@@ -75,21 +75,6 @@ request_schema = {
     "required": ["style"]
 }
 
-response_schema = {
-    "type": "object",
-    "properties": {
-        "v": {"type": "integer"},
-        "orange": {"type": "string"},
-        "orangeLight": {"type": "string"},
-        "orangeDark": {"type": "string"},
-        "background": {"type": "string"},
-        "foreground": {"type": "string"},
-        "foregroundOrange": {"type": "string"},
-        "tinting": {"type": "string"}
-    },
-    "required": ["v", "orange", "orangeLight", "orangeDark", "background", "foreground", "foregroundOrange", "tinting"]
-}
-
 limiter = Limiter(app, default_limits=["3 per minute"])
 
 @app.route('/generate-theme', methods=['POST'])
@@ -105,12 +90,6 @@ def generate_theme():
     prompt_parts.append(f"input: {user_style}")
     
     response = model.generate_content(prompt_parts)
-    try:
-        # Validate the JSON response against the schema
-        validate(response.json(), response_schema)
-    except ValidationError as e:
-        return jsonify({"error": str(e)}), 500
-
     return response.text
 
 

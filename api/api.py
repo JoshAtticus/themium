@@ -96,4 +96,4 @@ def generate_theme():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=5100)

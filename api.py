@@ -90,11 +90,10 @@ response_schema = {
     "required": ["v", "orange", "orangeLight", "orangeDark", "background", "foreground", "foregroundOrange", "tinting"]
 }
 
-limiter = Limiter(app, key_func=get_remote_address, default_limits=["3 per minute"])
-
+limiter = Limiter(app, default_limits=["3 per minute"])
 
 @app.route('/generate-theme', methods=['POST'])
-@limiter.limit("1 per second")
+@limiter.limit("1 per second")  # Additional rate limit of 1 request per second
 def generate_theme():
     try:
         # Validate the JSON payload against the schema

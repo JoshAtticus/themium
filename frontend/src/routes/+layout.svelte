@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { LogOut } from 'lucide-svelte';
     import { createEventDispatcher } from 'svelte';
+    import ThemePreview from "../lib/Previewer.svelte";
 
     const dispatcher = createEventDispatcher();
 
@@ -70,8 +70,15 @@
         <div class="response-container">
             <div class="code-block-container">
                 <code class="code-block">{themeResponse}</code>
-                <button class="create-button copy-button" onclick="navigator.clipboard.writeText('{themeResponse}')">Copy</button>
+                <span> |</span>
+                <button class="create-button copy-button" onclick="navigator.clipboard.writeText('{themeResponse}')"><b>Copy</b></button>
             </div>
+        </div>
+        <br>
+        <h1>Theme Preview</h1>
+        <br>
+        <div class="width: 50%;">
+            <center><ThemePreview size={"30%"} theme={JSON.parse(themeResponse)} /></center>
         </div>
     {/if}
 </div>

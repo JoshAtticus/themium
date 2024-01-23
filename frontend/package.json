@@ -1,6 +1,6 @@
 {
-	"name": "meowthemes",
-	"version": "0.0.1",
+	"name": "themium",
+	"version": "1.o.0",
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",

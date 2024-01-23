@@ -48,7 +48,10 @@
 <div class="topnav">
     <div class="topnav-inner">
         <a class="left" style="cursor: pointer;" href="/">
-            Themium
+            Home
+        </a>
+        <a class="left" style="cursor: pointer;" href="/terms">
+            Terms
         </a>
     </div>
 </div>
@@ -56,14 +59,18 @@
 <div style="text-align: center;">
     <br>
     <h1 style="font-size: 72px;">Themium</h1>
+    <i><p>Tip: Want to make better themes? Be more concise, describe the colours you want and where you want them.</p></i>
     <br>
     <input type="text" placeholder="What do you want to create?" bind:value={themeStyle}>
     <button class="create-button" on:click={createTheme}>Create</button>
     <br>
+    <i><p style="margin-top: 10px; color: grey;">By clicking Create, you agree to be bound by our Terms of Service.</p></i>
     {#if isCreatingTheme}
+        <br>
         <p class="creating-text">Creating that theme...</p>
     {/if}
     {#if errorMessage}
+        <br>
         <p class="error-message">{errorMessage}</p>
     {/if}
     {#if themeResponse}

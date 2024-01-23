@@ -28,8 +28,10 @@
             const responseData = await response.text();
             console.log(responseData); // Log the response data to check for any issues
 
+            // Handling the case where JSON starts with "output:"
+            const trimmedResponse = responseData.trim().replace(/^output:/, '');
             try {
-                const data = JSON.parse(responseData);
+                const data = JSON.parse(trimmedResponse);
                 themeResponse = JSON.stringify(data).replace(/\s+/g, ' ');
             } catch (error) {
                 console.error(error);

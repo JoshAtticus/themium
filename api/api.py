@@ -83,14 +83,16 @@ limiter = Limiter(app, default_limits=["3 per minute"])
 logs_file = 'logs.json'
 
 def log_request(ip, prompts):
-    logs = []
+    logs = {}
     if os.path.exists(logs_file):
         with open(logs_file) as file:
             logs = json.load(file)
-    logs.append({
-        'ip': ip,
-        'prompts': prompts
-    })
+    
+    if ip not in logs:
+        logs[ip] = []
+    
+    logs[ip].extend(prompts)
+    
     with open(logs_file, 'w') as file:
         json.dump(logs, file, indent=2)
 

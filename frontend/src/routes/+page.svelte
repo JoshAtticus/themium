@@ -77,8 +77,8 @@
         <div class="response-container">
             <div class="code-block-container">
                 <code class="code-block">{themeResponse}</code>
-                <span> |</span>
-                <button class="create-button copy-button" onclick="navigator.clipboard.writeText('{themeResponse}')"><b>Copy</b></button>
+                <!-- <span> |</span>
+                <button class="create-button copy-button" onclick="navigator.clipboard.writeText('{themeResponse}')"><b>Copy</b></button> -->
             </div>
         </div>
         <br>

@@ -80,7 +80,7 @@ request_schema = {
 limiter = Limiter(app, default_limits=["3 per minute"])
 
 @app.route('/generate-theme', methods=['POST'])
-@limiter.limit("1 per second")  # Additional rate limit of 1 request per second
+@limiter.limit("3 per minute")
 def generate_theme():
     try:
         # Validate the JSON payload against the schema

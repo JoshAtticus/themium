@@ -98,7 +98,7 @@ def log_request(ip, prompts):
 
 
 @app.route('/generate-theme', methods=['POST'])
-@limiter.limit("3 per minute")
+@limiter.limit("3 per minute", key_func=lambda: request.headers.get('cf-connecting-ip'))
 def generate_theme():
     ip = request.headers.get('cf-connecting-ip')
     prompts = []

@@ -6,6 +6,7 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_cors import CORS
 import google.generativeai as genai
+import json
 
 app = Flask(__name__)
 CORS(app) 
@@ -79,9 +80,26 @@ request_schema = {
 
 limiter = Limiter(app, default_limits=["3 per minute"])
 
+logs_file = 'logs.json'
+
+def log_request(ip, prompts):
+    logs = []
+    if os.path.exists(logs_file):
+        with open(logs_file) as file:
+            logs = json.load(file)
+    logs.append({
+        'ip': ip,
+        'prompts': prompts
+    })
+    with open(logs_file, 'w') as file:
+        json.dump(logs, file, indent=2)
+
+
 @app.route('/generate-theme', methods=['POST'])
 @limiter.limit("3 per minute")
 def generate_theme():
+    ip = request.headers.get('cf-connecting-ip')
+    prompts = []
     try:
         # Validate the JSON payload against the schema
         validate(request.json, request_schema)
@@ -89,6 +107,10 @@ def generate_theme():
         return jsonify({"error": str(e)}), 400
 
     user_style = request.json['style']
+    prompts.append(user_style)
+
+    log_request(ip, prompts)
+
     prompt_parts.append(f"input: {user_style}")
     
     response = model.generate_content(prompt_parts)

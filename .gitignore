@@ -6,3 +6,5 @@
 
 # npm & node
 node_modules
+build
+.svelte-kit

@@ -1,9 +1,5 @@
 {
 	"/": [
-		"src/routes/+layout.js",
-		"src/routes/+layout.js"
-	],
-	"/login": [
 		"src/routes/+layout.js"
 	]
 }

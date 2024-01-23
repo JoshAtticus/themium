@@ -1,8 +1,14 @@
 import os
+from dotenv import *
 from flask import Flask, request, jsonify
+from jsonschema import validate, ValidationError
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 import google.generativeai as genai
 
 app = Flask(__name__)
+
+load_dotenv()
 
 api_key = os.environ.get('GEMINI_API_KEY')
 genai.configure(api_key=api_key)
@@ -61,15 +67,51 @@ prompt_parts = [
   "output: ",
 ]
 
+request_schema = {
+    "type": "object",
+    "properties": {
+        "style": {"type": "string"}
+    },
+    "required": ["style"]
+}
+
+response_schema = {
+    "type": "object",
+    "properties": {
+        "v": {"type": "integer"},
+        "orange": {"type": "string"},
+        "orangeLight": {"type": "string"},
+        "orangeDark": {"type": "string"},
+        "background": {"type": "string"},
+        "foreground": {"type": "string"},
+        "foregroundOrange": {"type": "string"},
+        "tinting": {"type": "string"}
+    },
+    "required": ["v", "orange", "orangeLight", "orangeDark", "background", "foreground", "foregroundOrange", "tinting"]
+}
+
+limiter = Limiter(app, key_func=get_remote_address, default_limits=["3 per minute"])
+
 
 @app.route('/generate-theme', methods=['POST'])
+@limiter.limit("1 per second")
 def generate_theme():
-    prompt_parts = request.json['prompt_parts']
+    try:
+        # Validate the JSON payload against the schema
+        validate(request.json, request_schema)
+    except ValidationError as e:
+        return jsonify({"error": str(e)}), 400
+
     user_style = request.json['style']
-    
     prompt_parts.append(f"input: {user_style}")
     
     response = model.generate_content(prompt_parts)
+    try:
+        # Validate the JSON response against the schema
+        validate(response.json(), response_schema)
+    except ValidationError as e:
+        return jsonify({"error": str(e)}), 500
+
     return response.text
 
 

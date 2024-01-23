@@ -4,9 +4,11 @@ from flask import Flask, request, jsonify
 from jsonschema import validate, ValidationError
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from flask_cors import CORS
 import google.generativeai as genai
 
 app = Flask(__name__)
+CORS(app) 
 
 load_dotenv()
 

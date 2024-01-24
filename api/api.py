@@ -49,7 +49,7 @@ model = genai.GenerativeModel(
 )
 
 prompt_parts = [
-  "You create themes for Meower. Do not change any of the variable names, only their values! The only values should be \"orange\" (main color), \"orangeLight\" (main color but lighter), \"orangeDark\" (main color but darker). \"background\" (the background color), \"foreground\" (mainly used for text and a few other things), \"foregroundOrange\" (used for outlines of buttons) and \"tinting\" (used for tinting)",
+  "You create themes for Meower. Do not change any of the variable names, only their values! The only values should be \"orange\" (main color), \"orangeLight\" (main color but lighter), \"orangeDark\" (main color but darker). \"background\" (the background color), \"foreground\" (mainly used for text and a few other things), \"foregroundOrange\" (used for outlines of buttons) and \"tinting\" (used for tinting).Here are some basic color examples you can use:Red - #FF0000Orange - #FFA500Meower Orange - #FC5D11Yellow - #FFFF00Green - #008000Lime - #32CD32Mint Green - #98FB98Blue Green - #0D98BACobalt Blue - #0047ABToothpaste Blue - #B1EAE8Cyan - #00FFFFBlue - #0000FFTeal - #008080Blue Purple - #8A2BE2Indigo - #4B0082Purple - #800080Violet - #7F00FFPink - #FFC0CBBlack - #000000Grey - #808080White - #FFFFFF",
   "input: The default orange theme",
   "output: {\"v\":1,\"orange\":\"#f9a636\",\"orangeLight\":\"#ffcb5b\",\"orangeDark\":\"#d48111\",\"background\":\"#ffffff\",\"foreground\":\"#000000\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#252525\"}",
   "input: The default orange theme but turqouise",
@@ -66,6 +66,20 @@ prompt_parts = [
   "output: {\"v\":1,\"orange\":\"#c39f81\",\"orangeLight\":\"#f6d7b8\",\"orangeDark\":\"#97755d\",\"background\":\"#f6d7b8\",\"foreground\":\"#000000\",\"foregroundOrange\":\"#000000\",\"tinting\":\"#ffffff\"}",
   "input: A pitch black AMOLED theme with cool cyan accents",
   "output: {\"v\":1,\"orange\":\"#00bfff\",\"orangeLight\":\"#33e0ff\",\"orangeDark\":\"#008cba\",\"background\":\"#000000\",\"foreground\":\"#ffffff\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#00171f\"}",
+  "input: A theme based on the colors of the Google Turtle Emoji",
+  "output: {\"v\":1,\"orange\":\"#66bb6a\",\"orangeLight\":\"#99d98c\",\"orangeDark\":\"#339933\",\"background\":\"#001820\",\"foreground\":\"#ffffff\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#00301b\"}",
+  "input: Make this theme light mode: {\"v\":1,\"orange\":\"#ffffff\",\"orangeLight\":\"#ffffff\",\"orangeDark\":\"#ffffff\",\"background\":\"#000000\",\"foreground\":\"#ffffff\",\"foregroundOrange\":\"#000000\",\"tinting\":\"#000000\"}",
+  "output: {\"v\":1,\"orange\":\"#8bc34a\",\"background\":\"#deffb7\",\"foreground\":\"#000000\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#030402\",\"orangeLight\":\"#8ec74c\",\"orangeDark\":\"#88bf48\"}",
+  "input: Make this theme light mode: {\"v\":1,\"orange\":\"#ffeb3b\",\"orangeLight\":\"#ffff72\",\"orangeDark\":\"#c8b91d\",\"background\":\"#1d2951\",\"foreground\":\"#ffffff\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#374785\"}",
+  "output: {\"v\":1,\"orange\":\"#ffeb3b\",\"orangeLight\":\"#ffff72\",\"orangeDark\":\"#c8b91d\",\"background\":\"#1d2951\",\"foreground\":\"#ffffff\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#374785\"}",
+  "input: Make this theme light mode: {\"v\":1,\"orange\":\"#00bfff\",\"orangeLight\":\"#33e0ff\",\"orangeDark\":\"#008cba\",\"background\":\"#000000\",\"foreground\":\"#ffffff\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#00171f\"}",
+  "output: {\"v\":1,\"orange\":\"#00bfff\",\"orangeLight\":\"#00d6ff\",\"orangeDark\":\"#00a8e0\",\"background\":\"#ffffff\",\"foreground\":\"#000000\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#00171f\"}",
+  "input: Make this theme dark mode: {\"v\":1,\"orange\":\"#fc747b\",\"orangeLight\":\"#ff8a8f\",\"orangeDark\":\"#de5e64\",\"background\":\"#ffffff\",\"foreground\":\"#000000\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#252525\"}",
+  "output: {\"v\":1,\"orange\":\"#fc747b\",\"orangeLight\":\"#ff99a0\",\"orangeDark\":\"#d74f56\",\"background\":\"#1c1c1c\",\"foreground\":\"#ffffff\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#252525\"}",
+  "input: Make this theme dark mode: {\"v\":1,\"orange\":\"#57ab4b\",\"orangeLight\":\"#88c971\",\"orangeDark\":\"#2b802c\",\"background\":\"#ffffff\",\"foreground\":\"#000000\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#252525\"}",
+  "output: {\"v\":1,\"orange\":\"#57ab4b\",\"orangeLight\":\"#7cd070\",\"orangeDark\":\"#328626\",\"background\":\"#171717\",\"foreground\":\"#ffffff\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#252525\"}",
+  "input: Make this theme dark mode: {\"v\":1,\"orange\":\"#00bfff\",\"background\":\"#ffffff\",\"foreground\":\"#000000\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#003e5c\",\"orangeLight\":\"#33e0ff\",\"orangeDark\":\"#008cba\"}",
+  "output: {\"v\":1,\"orange\":\"#00bfff\",\"background\":\"#000000\",\"foreground\":\"#ffffff\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#003e5c\",\"orangeLight\":\"#00fdff\",\"orangeDark\":\"#0081a3\"}",
   "input: ",
   "output: ",
 ]

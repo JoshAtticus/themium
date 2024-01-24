@@ -48,7 +48,7 @@ model = genai.GenerativeModel(
     safety_settings=safety_settings
 )
 
-prompt_parts = [
+creator_prompt_parts = [
   "You create themes for Meower. Do not change any of the variable names, only their values! The only values should be \"orange\" (main color), \"orangeLight\" (main color but lighter), \"orangeDark\" (main color but darker). \"background\" (the background color), \"foreground\" (mainly used for text and a few other things), \"foregroundOrange\" (used for outlines of buttons) and \"tinting\" (used for tinting).Here are some basic color examples you can use:Red - #FF0000Orange - #FFA500Meower Orange - #FC5D11Yellow - #FFFF00Green - #008000Lime - #32CD32Mint Green - #98FB98Blue Green - #0D98BACobalt Blue - #0047ABToothpaste Blue - #B1EAE8Cyan - #00FFFFBlue - #0000FFTeal - #008080Blue Purple - #8A2BE2Indigo - #4B0082Purple - #800080Violet - #7F00FFPink - #FFC0CBBlack - #000000Grey - #808080White - #FFFFFF",
   "input: The default orange theme",
   "output: {\"v\":1,\"orange\":\"#f9a636\",\"orangeLight\":\"#ffcb5b\",\"orangeDark\":\"#d48111\",\"background\":\"#ffffff\",\"foreground\":\"#000000\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#252525\"}",
@@ -84,12 +84,49 @@ prompt_parts = [
   "output: ",
 ]
 
-request_schema = {
+describer_prompt_parts = [
+  "You analyze the colors of Meower themes and write a short prompt describing the theme. Be descriptive!",
+  "input: {\"v\":1,\"orange\":\"#f9a636\",\"orangeLight\":\"#ffcb5b\",\"orangeDark\":\"#d48111\",\"background\":\"#ffffff\",\"foreground\":\"#000000\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#252525\"}",
+  "output: Default Meower orange theme",
+  "input: {\"v\":1,\"orange\":\"#e62739\",\"orangeLight\":\"#ff6974\",\"orangeDark\":\"#bf001d\",\"background\":\"#181818\",\"foreground\":\"#ffffff\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#252525\"}",
+  "output: Dark mode red theme",
+  "input: {\"v\":1,\"orange\":\"#0099cc\",\"background\":\"#090909\",\"foreground\":\"#ffffff\",\"foregroundOrange\":\"#C5EAF8\",\"tinting\":\"#001820\",\"orangeLight\":\"#00b1ec\",\"orangeDark\":\"#0081ac\"}",
+  "output: Dark mode theme with cyan accents",
+  "input: {\"v\":1,\"orange\":\"#c39f81\",\"orangeLight\":\"#f6d7b8\",\"orangeDark\":\"#97755d\",\"background\":\"#f6d7b8\",\"foreground\":\"#000000\",\"foregroundOrange\":\"#000000\",\"tinting\":\"#ffffff\"}",
+  "output: Caramel light mode theme",
+  "input: {\"v\":1,\"orange\":\"#2e8b57\",\"orangeLight\":\"#64d88d\",\"orangeDark\":\"#00693e\",\"background\":\"#181818\",\"foreground\":\"#ffffff\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#00301b\"}",
+  "output: Mint green dark mode theme",
+  "input: {\"v\":1,\"orange\":\"#fc747b\",\"orangeLight\":\"#ff99a0\",\"orangeDark\":\"#d74f56\",\"background\":\"#1c1c1c\",\"foreground\":\"#ffffff\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#252525\"}",
+  "output: Whitish-pink dark mode theme",
+  "input: {\"v\":1,\"orange\":\"#66bb6a\",\"background\":\"#001820\",\"foreground\":\"#ffffff\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#00301b\",\"orangeLight\":\"#66eb85\",\"orangeDark\":\"#668b4f\"}",
+  "output: Forest green dark mode theme",
+  "input: {\"v\":1,\"orange\":\"#ffeb3b\",\"orangeLight\":\"#ffff72\",\"orangeDark\":\"#c8b91d\",\"background\":\"#1d2951\",\"foreground\":\"#ffffff\",\"foregroundOrange\":\"#ffffff\",\"tinting\":\"#374785\"}",
+  "output: Dark mode theme with the colors of lightning",
+  "input: ",
+  "output: ",
+]
+
+creator_request_schema = {
     "type": "object",
     "properties": {
         "style": {"type": "string"}
     },
     "required": ["style"]
+}
+
+describer_request_schema = {
+    "type": "object",
+    "properties": {
+        "v": {"type": "integer"},
+        "orange": {"type": "string"},
+        "orangeLight": {"type": "string"},
+        "orangeDark": {"type": "string"},
+        "background": {"type": "string"},
+        "foreground": {"type": "string"},
+        "foregroundOrange": {"type": "string"},
+        "tinting": {"type": "string"},
+    },
+    "required": ["v", "orange", "orangeLight", "orangeDark", "background", "foreground", "foregroundOrange", "tinting"]
 }
 
 limiter = Limiter(app, default_limits=["3 per minute"])
@@ -118,7 +155,7 @@ def generate_theme():
     prompts = []
     try:
         # Validate the JSON payload against the schema
-        validate(request.json, request_schema)
+        validate(request.json, creator_request_schema)
     except ValidationError as e:
         return jsonify({"error": str(e)}), 400
 
@@ -127,9 +164,30 @@ def generate_theme():
 
     log_request(ip, prompts)
 
-    prompt_parts.append(f"{user_style}")
+    creator_prompt_parts.append(f"{user_style}")
     
-    response = model.generate_content(prompt_parts)
+    response = model.generate_content(creator_prompt_parts)
+    return response.text
+
+@app.route('/describe-theme', methods=['POST'])
+@limiter.limit("1 per second")
+def describe_theme():
+    ip = request.headers.get('cf-connecting-ip')
+    prompts = []
+    try:
+        # Validate the JSON payload against the schema
+        validate(request.json, describer_request_schema)
+    except ValidationError as e:
+        return jsonify({"error": str(e)}), 400
+
+    user_style = request.json['theme']
+    prompts.append(user_style)
+
+    log_request(ip, prompts)
+
+    describer_prompt_parts.append(f"{user_style}")
+    
+    response = model.generate_content(describer_prompt_parts)
     return response.text
 
 

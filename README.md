@@ -1,2 +1,2 @@
 # themium
-Create Meower themes with Google Gemini Pro
+Create Meower themes with Geminium API

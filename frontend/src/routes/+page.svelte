@@ -15,7 +15,7 @@
         dispatcher('update');
 
         try {
-            const response = await fetch('https://themiumapi.joshatticus.online/generate-theme', {
+            const response = await fetch('https://geminium.joshatticus.online/api/themium/generate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
